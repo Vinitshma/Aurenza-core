@@ -88,7 +88,7 @@ We welcome contributors of all backgrounds — developers, designers, researcher
    ```bash
    git push origin feature/your-feature-name
    ```
-8. **Open a Pull Request** to the main repository
+8. **Open a Pull Request** to the dev repository
 
 ### Contribution Areas
 

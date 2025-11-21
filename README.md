@@ -65,19 +65,30 @@ We welcome contributors of all backgrounds — developers, designers, researcher
    git clone https://github.com/AurenzaLabs/Aurenza-core.git
    cd aurenza-core
    ```
-3. **Create a branch** for your feature
+3. Set up the upstream remote (original repo)
    ```bash
-   git checkout -b feature/your-feature-name
+   git remote add upstream https://github.com/AurenzaLabs/Aurenza-core.git
    ```
-4. **Make your changes** and commit
+4. Create a new branch from **dev**
+   - Make sure you have the latest version of **dev**:
+   ```bash
+   git fetch upstream
+   git checkout dev
+   git pull upstream dev
+   ```
+   - Now create your feature branch:
+     ```bash
+     git checkout -b feature/your-feature-name
+     ```
+6. **Make your changes** and commit
    ```bash
    git commit -m "feat: add your feature description"
    ```
-5. **Push** to your fork
+7. **Push** to your fork
    ```bash
    git push origin feature/your-feature-name
    ```
-6. **Open a Pull Request** to the main repository
+8. **Open a Pull Request** to the main repository
 
 ### Contribution Areas
 

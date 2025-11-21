@@ -80,15 +80,15 @@ We welcome contributors of all backgrounds — developers, designers, researcher
      ```bash
      git checkout -b feature/your-feature-name
      ```
-6. **Make your changes** and commit
+5. **Make your changes** and commit
    ```bash
    git commit -m "feat: add your feature description"
    ```
-7. **Push** to your fork
+6. **Push** to your fork
    ```bash
    git push origin feature/your-feature-name
    ```
-8. **Open a Pull Request** to the main repository
+7. **Open a Pull Request** to the dev repository
 
 ### Contribution Areas
 

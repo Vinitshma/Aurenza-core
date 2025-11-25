@@ -1,55 +1,165 @@
-import Image from "next/image";
-import Link from "next/link";
-import { Spotlight } from "@/components/ui/Spotlight";
-import { Button } from "@/components/ui/moving-border";
+'use client';
 
-function HeroSection() {
+import { useEffect, useRef } from 'react';
+import Image from 'next/image';
+
+export default function HeroSection() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles: {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      size: number;
+      opacity: number;
+    }[] = [];
+
+    // Create particles
+    for (let i = 0; i < 100; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        size: Math.random() * 3 + 1,
+        opacity: Math.random() * 0.5 + 0.2,
+      });
+    }
+
+    let animationFrameId: number;
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((particle) => {
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+
+        if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
+        if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${particle.opacity})`;
+        ctx.fill();
+      });
+
+      // Draw connections
+      particles.forEach((p1, i) => {
+        particles.slice(i + 1).forEach((p2) => {
+          const dx = p1.x - p2.x;
+          const dy = p1.y - p2.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 150) {
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - distance / 150)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        });
+      });
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    const handleResize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
-    <div className="relative w-full bg-black text-white overflow-hidden py-10 md:py-20">
-      {/* Spotlight background */}
-      <Spotlight
-        className="-top-40 left-0 md:left-40 md:-top-20"
-        fill="white"
-      />
+    <div className="hero-container">
+      <canvas ref={canvasRef} className="particle-canvas" />
 
-      {/* Content grid */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-        
-        {/* LEFT SIDE - Text Content */}
-        <div className="flex flex-col justify-center text-center md:text-left space-y-6">
-          <h1 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400">
-            Master Knowledge. Elevate Care.
+      {/* Header */}
+      <header className="header">
+        <div className="logo">
+          <div className="logo-icon">+</div>
+          <span className="logo-text">MedTech Pro</span>
+        </div>
+        <button className="contact-btn">CONTACT US</button>
+      </header>
+
+      {/* Main Content */}
+      <main className="main-content">
+        <div className="content-left">
+          <h1 className="hero-title">
+            Revolutionizing Medical<br />
+            Learning & Care with<br />
+            AI + 3D Anatomy
           </h1>
-          <p className="text-neutral-300 text-base md:text-lg max-w-md">
-            At Aurenza, we believe technology should not only heal it should teach, empower, and inspire.
-We're building a bridge between medical innovation and human understanding, making healthcare smarter, more accessible, and deeply personal.
+          <p className="hero-subtitle">
+            Explore the human body interactively and<br />
+            access intelligent tools for learning,<br />
+            diagnosis, and care.
           </p>
-          <div>
-            <Link href="/courses">
-              <Button
-                borderRadius="1.75rem"
-                className="bg-white dark:bg-black text-black dark:text-white border-neutral-200 dark:border-slate-800"
-              >
-                Explore
-              </Button>
-            </Link>
+          <button className="cta-button">
+            <span>Explore Anatomy</span>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
+
+        <div className="content-right">
+          <div className="anatomy-wrapper">
+            <Image
+              src="/anatomy-figure.png"
+              alt="3D Human Anatomy"
+              width={600}
+              height={800}
+              className="anatomy-image"
+              priority
+            />
           </div>
         </div>
+      </main>
 
-        {/* RIGHT SIDE - Image */}
-        <div className="flex justify-center md:justify-end">
-          <Image
-            src="/39d26fe266-5890f59e90ae56926522.png"
-            alt="Human Anatomy Illustration"
-            width={500}
-            height={500}
-            className="rounded-xl object-contain drop-shadow-lg"
-            priority
-          />
+      {/* Navigation Bar */}
+      <nav className="nav-bar">
+        <button className="nav-arrow nav-arrow-left">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+
+        <div className="nav-items">
+          <a href="#home" className="nav-item active">HOME</a>
+          <a href="#about" className="nav-item">ABOUT</a>
+          <a href="#testimonial" className="nav-item">TESTIMONIAL</a>
+          <a href="#tools" className="nav-item">TOOLS</a>
         </div>
-      </div>
+
+        <button className="nav-arrow nav-arrow-right">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      </nav>
     </div>
   );
 }
-
-export default HeroSection;

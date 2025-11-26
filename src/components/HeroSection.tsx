@@ -99,7 +99,7 @@ export default function HeroSection() {
       <header className="header">
         <div className="logo">
           <div className="logo-icon">+</div>
-          <span className="logo-text">MedTech Pro</span>
+          <span className="logo-text">AurenzaLabs</span>
         </div>
         <button className="contact-btn">CONTACT US</button>
       </header>
@@ -108,14 +108,11 @@ export default function HeroSection() {
       <main className="main-content">
         <div className="content-left">
           <h1 className="hero-title">
-            Revolutionizing Medical<br />
-            Learning & Care with<br />
-            AI + 3D Anatomy
+            Master Knowledge. Elevate Care
           </h1>
           <p className="hero-subtitle">
-            Explore the human body interactively and<br />
-            access intelligent tools for learning,<br />
-            diagnosis, and care.
+        At Aurenza, we believe technology should not only heal it should teach, empower, and inspire.
+We're building a bridge between medical innovation and human understanding, making healthcare smarter, more accessible, and deeply personal.
           </p>
           <button className="cta-button">
             <span>Explore Anatomy</span>

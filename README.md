@@ -39,20 +39,6 @@ Aurenza Core serves as the **open backbone** for this innovation, combining open
 
 ---
 
-## 📁 Repository Structure
-
-```
-aurenza-core/
-├── src/              # Core codebase
-├── docs/             # Documentation and guides
-├── LICENSE
-├── README.md
-├── CONTRIBUTING.md
-└── CODE_OF_CONDUCT.md
-```
-
----
-
 ## 🤝 Contributing
 
 We welcome contributors of all backgrounds — developers, designers, researchers, healthcare professionals, and builders.

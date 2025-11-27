@@ -1,9 +1,8 @@
-import styles from "../../styles/home.module.css";
 
 export default function HomePage(){
     return (
-        <div className={styles.home}>
-            <h1>Hello home</h1>
+        <div className="min-h-screen bg-background text-foreground p-8">
+            <h1 className="text-2xl font-bold mt-5 mb-5 text-red-500">Hello home</h1>
         </div>
     );
 }

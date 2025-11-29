@@ -1,7 +1,7 @@
-export default function AboutPage(){
-    return(
-        <div>
-            <h1>Hello about</h1>
-        </div>
-    );
+export default function AboutPage() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <h1 className="text-4xl font-bold text-gray-800">About Page</h1>
+    </div>
+  );
 }

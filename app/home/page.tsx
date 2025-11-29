@@ -1,4 +1,5 @@
 import Header from '@/components/Header';
+import BottomNavbar from '@/components/BottomNavbar';
 import HomeContent from "./homeContent";
 
 export default function HomePage() {

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { IconArrowNarrowRight } from "@tabler/icons-react";
+import Link from "next/link";
 
 export default function HomeContent() {
   return (
@@ -8,21 +9,22 @@ export default function HomeContent() {
         <div className="w-1/2 flex items-center justify-center">
           <div className="max-w-lg">
             <h1 className="text-3xl font-bold leading-snug">
-              Revolutionizing Medical <br />
-              Learning & Care with
-              <br />
-              AI + 3D Anatomy
+              Master Knowledge. <br />
+              Elevate Care.
             </h1>
 
             <p className="text-gray-700 pt-2">
-              Explore the human body interactively and access intelligent tools
-              for learning, diagnosis, and care.
+              At Aurenza, we believe technology should not only heal it shuld teach, empower,and inspire. 
+              We're building a bridge between medical innovation and human understanding, making healthcare 
+              smarter,more accessible, and deeply personal.
             </p>
 
-            <Button className="mt-2" variant="outline" size="sm">
-              Explore Anatomy{" "}
-              <IconArrowNarrowRight className="rotate-320" stroke={2} />
-            </Button>
+            <Link href="/anatomy">
+              <Button className="mt-2" variant="outline" size="sm">
+                Explore Anatomy
+                <IconArrowNarrowRight className="rotate-320" stroke={2} />
+              </Button>
+            </Link>
           </div>
         </div>
 

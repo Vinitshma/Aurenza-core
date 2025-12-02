@@ -10,8 +10,7 @@ const navItems = [
   { name: 'HOME', path: '/' },
   { name: 'ABOUT', path: '/about' },
   { name: 'TESTIMONIAL', path: '/testimonial' },
-  { name: 'TOOLS', path: '/tools' },
-  { name: 'CONTACT', path: '/contact' },
+  { name: 'TOOLS', path: '/tools' }
 ];
 
 export default function BottomNavbar() {
@@ -83,8 +82,8 @@ export default function BottomNavbar() {
   const visibleItems = navItems.slice(startIndex, startIndex + visibleCount);
 
   return (
-    <div ref={navbarRef} className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[998] w-full max-w-[810px] px-4 opacity-0 translate-y-[100px]">
-      <div className="flex items-center justify-between px-3 md:px-6 h-[90px] bg-[#3E3E3E]/40 backdrop-blur-md border border-white/20 rounded-2xl shadow-2xl w-full">
+    <div ref={navbarRef} className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[998] w-full max-w-[610px] px-3 opacity-0 translate-y-[60px]">
+      <div className="flex items-center justify-between px-3 md:px-4 h-[78px] bg-[#0303034f] backdrop-blur-md border-solid border-[#858181] rounded-2xl shadow-2xl w-full">
         <button 
           onClick={handlePrev}
           disabled={startIndex === 0}
@@ -98,7 +97,7 @@ export default function BottomNavbar() {
                 <Link
                     key={item.path}
                     href={item.path}
-                    className={`text-[16px] md:text-[24px] font-medium tracking-wide transition-all duration-300 whitespace-nowrap ${
+                    className={`text-[14px] md:text-[16px] font-medium tracking-wide transition-all duration-300 whitespace-nowrap ${
                         pathname === item.path
                         ? 'text-white border-b-2 border-white pb-1'
                         : 'text-white/60 hover:text-white'

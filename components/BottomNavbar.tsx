@@ -18,103 +18,119 @@ export default function BottomNavbar() {
   const navbarRef = useRef<HTMLDivElement>(null);
   const [startIndex, setStartIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(3);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // GSAP Animation: Slide up from bottom
+    setIsClient(true);
+  }, []);
+
+  // GSAP entrance animation
+  useEffect(() => {
     if (navbarRef.current) {
       gsap.fromTo(
         navbarRef.current,
-        { y: 100, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.5 }
+        { y: 60, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', delay: 0.4 }
       );
     }
   }, []);
 
   useEffect(() => {
+    if (!isClient) return;
+    
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
+      if(window.innerWidth >= 600){
         setVisibleCount(4);
-      } else {
+      }else if(window.innerWidth >= 400){
         setVisibleCount(3);
+      }else{
+        setVisibleCount(2);
       }
     };
 
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [isClient]);
 
-  // Auto-scroll to active item when path changes
   useEffect(() => {
     const activeIndex = navItems.findIndex(item => item.path === pathname);
     if (activeIndex !== -1) {
-      setStartIndex((currentStartIndex) => {
-        if (activeIndex < currentStartIndex) {
-          return activeIndex;
-        }
-        if (activeIndex >= currentStartIndex + visibleCount) {
+      setStartIndex((current) => {
+        if (activeIndex < current) return activeIndex;
+        if (activeIndex >= current + visibleCount) {
           return activeIndex - visibleCount + 1;
         }
-        return currentStartIndex;
+        return current;
       });
     }
   }, [pathname, visibleCount]);
 
-  // Ensure startIndex is valid when visibleCount changes
+  // Clamp index
   useEffect(() => {
     if (startIndex > navItems.length - visibleCount) {
       setStartIndex(Math.max(0, navItems.length - visibleCount));
     }
   }, [visibleCount, startIndex]);
 
-  const handlePrev = () => {
-    if (startIndex > 0) {
-      setStartIndex((prev) => prev - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (startIndex < navItems.length - visibleCount) {
-      setStartIndex((prev) => prev + 1);
-    }
-  };
-
   const visibleItems = navItems.slice(startIndex, startIndex + visibleCount);
 
   return (
-    <div ref={navbarRef} className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[998] w-full max-w-[610px] px-3 opacity-0 translate-y-[60px]">
-      <div className="flex items-center justify-between px-3 md:px-4 h-[78px] bg-[#0303034f] backdrop-blur-md border-solid border-[#858181] rounded-2xl shadow-2xl w-full">
-        <button 
-          onClick={handlePrev}
-          disabled={startIndex === 0}
-          className={`text-white/70 hover:text-white transition-colors shrink-0 z-10 ${startIndex === 0 ? 'opacity-30 cursor-not-allowed' : ''}`}
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
+    <div
+      ref={navbarRef}
+      className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[30] w-full max-w-[480px] px-3"
+    >
+      <div className="bg-white/80 backdrop-blur-md border border-white/40 rounded-md shadow-2xl px-4 py-3">
+        <div className="flex items-center justify-between gap-4">
 
-        <div className="flex-1 flex items-center justify-between px-4 md:px-8">
-            {visibleItems.map((item) => (
+          <button
+            onClick={() => setStartIndex(i => Math.max(0, i - 1))}
+            disabled={startIndex === 0}
+            className={`p-2 transition-colors ${
+              startIndex === 0
+                ? 'text-gray-300 cursor-not-allowed'
+                : 'text-gray-400 hover:text-gray-600'
+            }`}
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+
+          <div className="flex flex-1 items-center justify-center gap-6">
+            {visibleItems.map((item) => {
+              const isActive = pathname === item.path;
+              return (
                 <Link
-                    key={item.path}
-                    href={item.path}
-                    className={`text-[14px] md:text-[16px] font-medium tracking-wide transition-all duration-300 whitespace-nowrap ${
-                        pathname === item.path
-                        ? 'text-white border-b-2 border-white pb-1'
-                        : 'text-white/60 hover:text-white'
-                    }`}
+                  key={item.path}
+                  href={item.path}
+                  className={`text-sm font-medium tracking-wide ${
+                    isActive
+                      ? 'text-gray-900 border-b-2 border-blue-500 pb-1'
+                      : 'text-gray-500 hover:text-gray-900 transition-colors'
+                  }`}
                 >
-                    {item.name}
+                  {item.name}
                 </Link>
-            ))}
-        </div>
+              );
+            })}
+          </div>
 
-        <button 
-          onClick={handleNext}
-          disabled={startIndex >= navItems.length - visibleCount}
-          className={`text-white/70 hover:text-white transition-colors shrink-0 z-10 ${startIndex >= navItems.length - visibleCount ? 'opacity-30 cursor-not-allowed' : ''}`}
-        >
-          <ChevronRight className="w-5 h-5" />
-        </button>
+          <button
+            onClick={() =>
+              setStartIndex(i =>
+                Math.min(navItems.length - visibleCount, i + 1)
+              )
+            }
+            disabled={startIndex >= navItems.length - visibleCount}
+            className={`p-2 transition-colors ${
+              startIndex >= navItems.length - visibleCount
+                ? 'text-gray-300 cursor-not-allowed'
+                : 'text-gray-400 hover:text-gray-600'
+            }`}
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+
+        </div>
       </div>
     </div>
   );

@@ -1,10 +1,11 @@
 'use client';
 
+import { IconMedicalCross } from '@tabler/icons-react';
 import { ArrowRight, Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export default function Header() {
-   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const closeOnResize = () => {
@@ -23,8 +24,15 @@ export default function Header() {
     <>
       <header className="fixed top-0 w-full z-[9999]">
         <div className="mx-2 mt-2 rounded-xl bg-black lg:bg-transparent px-4 sm:px-6 lg:px-8 h-14 lg:h-20 flex items-center justify-between">
-          <div className="text-2xl font-bold text-white lg:text-black">
-            Aurenza Labs
+          {/* <div className="text-2xl font-bold ">
+            
+          </div> */}
+
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+              <IconMedicalCross className="h-5 w-5 text-white lg:text-white" />
+            </div>
+            <span className="text-xl font-bold text-white lg:text-black">Aurenza Labs</span>
           </div>
 
           <div className="hidden lg:flex items-center">

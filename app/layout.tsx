@@ -1,7 +1,11 @@
+'use client';
+
 import BottomNavbar from "@/components/BottomNavbar";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/Header";
+import { usePathname } from 'next/navigation';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,21 +17,20 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Aurenza Lab",
-  // description: "",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+  const hideNavigation = pathname === '/anatomy';
+
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
-        {/* <BottomNavbar /> */}
+        {!hideNavigation && <Header />}
+        {!hideNavigation && <BottomNavbar />}
       </body>
     </html>
   );
